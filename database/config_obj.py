@@ -1,7 +1,7 @@
 from typing import Any
 from pony.orm.core import db_session, select
 import builtins
-from .config import Config
+from . import Config
 from .config.type_conversion import load_type
 
 from .config.set import set_config
