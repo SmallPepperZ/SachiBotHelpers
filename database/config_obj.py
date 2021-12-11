@@ -24,9 +24,7 @@ class __ConfigData():
     def __init__(self):
         config_items = select(c for c in Config)
         for item in config_items:
-            print(item)
             value = load_type(item)
-            print(value)
             super().__setattr__(item.key, value)
 
     def __setattr__(self, __name: str, __value: Any) -> None:
