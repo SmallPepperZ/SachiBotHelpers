@@ -1,20 +1,6 @@
 import discord
 from discord.embeds import Embed
 
-class _PageCount(discord.ui.Button):
-    def __init__(self, paginator):
-        self.paginator=paginator
-        self.index = paginator.index
-        self.count = len(paginator.embeds)
-        super().__init__(
-            label=self.label,
-            style=discord.ButtonStyle.gray,
-            disabled=True
-        )
-
-    @property
-    def label(self) -> str:
-        return f'Page {self.index+1}/{self.count}'
 
 class EmbedPaginator(discord.ui.View):
     def __init__(self, embeds:list[discord.Embed]):
@@ -33,7 +19,6 @@ class EmbedPaginator(discord.ui.View):
 
     async def update_message(self, interaction:discord.Interaction):
         await interaction.response.edit_message(embed=self.current_embed)
-        await self.children[2].callback(interaction)
         await self.refresh()
 
     @discord.ui.button(label="<<", style=discord.ButtonStyle.blurple)
@@ -59,5 +44,5 @@ class EmbedPaginator(discord.ui.View):
 
     @discord.ui.button(label=">>", style=discord.ButtonStyle.blurple)
     async def last(self, button:discord.ui.Button, interaction:discord.Interaction):
-        self.index = 5
+        self.index = len(self.embeds)-1
         await self.update_message(interaction)
