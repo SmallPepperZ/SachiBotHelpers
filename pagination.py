@@ -19,7 +19,6 @@ class EmbedPaginator(discord.ui.View):
 
     async def update_message(self, interaction:discord.Interaction):
         await interaction.response.edit_message(embed=self.current_embed)
-        await self.refresh()
 
     @discord.ui.button(label="<<", style=discord.ButtonStyle.blurple)
     async def first(self, button:discord.ui.Button, interaction:discord.Interaction):
