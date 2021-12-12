@@ -1,8 +1,6 @@
-import uuid
-import time
-
-from pony.orm.core import Optional, PrimaryKey, Required, Set
-
+import discord
+from pony.orm.core import PrimaryKey, Required, Set
+from typing import Optional
 from .. import db
 
 class SnowFighter(db.Entity):
@@ -54,6 +52,13 @@ class SnowFighter(db.Entity):
     def score(self):
         return self.hit_count
 
+    
+    
+
+    @property
+    def id(self) -> int:
+        return int(self.user_id)
+
     def collect_snowball(self, count=1):
         self.snowballs_collected += count
 
@@ -62,6 +67,9 @@ class SnowFighter(db.Entity):
 
     def drop_snowballs(self):
         self.snowballs_lost += self.snowballs_held
+
+    async def get_discord_user(self, ctx:discord.ApplicationContext) -> Optional[discord.User]:
+        return await ctx.bot.fetch_user(self.id)
 
 
 class SnowFight(db.Entity):
