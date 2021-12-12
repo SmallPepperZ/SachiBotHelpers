@@ -5,7 +5,6 @@ from pony.orm.core import Optional, PrimaryKey, Required, Set
 
 from .. import db
 
-
 class SnowFighter(db.Entity):
     user_id = PrimaryKey(str)
     
@@ -21,6 +20,7 @@ class SnowFighter(db.Entity):
     
     defense_bonus = Required(int, default=0)
     aim_bonus = Required(int, default=0)
+
 
     @property
     def snowballs_thrown(self):
@@ -50,6 +50,9 @@ class SnowFighter(db.Entity):
     def times_missed(self) -> int:
         return len([fight for fight in self.fights_recieved if not fight.is_hit])
 
+    @property
+    def score(self):
+        return self.hit_count
 
     def collect_snowball(self, count=1):
         self.snowballs_collected += count
@@ -59,6 +62,7 @@ class SnowFighter(db.Entity):
 
     def drop_snowballs(self):
         self.snowballs_lost += self.snowballs_held
+
 
 class SnowFight(db.Entity):
     _table_ = "snowfights"

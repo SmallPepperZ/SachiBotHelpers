@@ -2,6 +2,8 @@ from pony.orm import Database
 import os
 
 
+class __Dummy():
+    pass
 
 db = Database()
 
@@ -17,7 +19,14 @@ if "invite" in modules:
     from .invites import Invitee
 if "snow" in modules:
     from .snow.db_entries import SnowFight, SnowFighter
-
+    from .snow.leaderboard import Leaderboard as __Leaderboard
+else:
+    __Leaderboard = __Dummy
 db.generate_mapping(create_tables=True)
+
+snow_leaderboard:__Leaderboard = __Leaderboard()
+
+
+
 
 
