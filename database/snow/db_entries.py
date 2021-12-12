@@ -42,18 +42,38 @@ class SnowFighter(db.Entity):
 
     @property
     def times_hit(self) -> int:
-        return len([fight for fight in self.fights_recieved if fight.is_hit])
+        return len(self.fights_where_hit)
 
     @property
     def times_missed(self) -> int:
         return len([fight for fight in self.fights_recieved if not fight.is_hit])
 
     @property
+    def fights_where_hit(self):
+        return [fight for fight in self.fights_recieved if fight.is_hit]
+    @property
     def score(self):
         return self.hit_count
 
+    @property
+    def fights(self) -> list:
+        return self.fights_initiated + self.fights_recieved
     
     
+    def get_sorted_fights(self, fights) -> list:
+        fights=list(fights)
+        fights.sort(key=lambda x:x.timestamp,reverse=False)
+        return fights
+
+    def last_fight(self, fights) -> "SnowFight":
+        try:
+            return self.get_sorted_fights(fights)[-1]
+        except IndexError as e:
+            raise IndexError("No fights match crieteria") from e
+
+    @property
+    def last_lost_fight(self) -> "SnowFight":
+        return self.last_fight(self.fights_where_hit)
 
     @property
     def id(self) -> int:
