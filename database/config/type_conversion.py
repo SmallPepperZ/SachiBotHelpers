@@ -5,6 +5,8 @@ def load_type(item) -> "str|int|dict|list":
             return str(item.value)
         if item.type == "list":
             return json.loads(item.value)
+        if item.type == "int":
+            return int(item.value)
         if item.type == "hex":
             int_version = int(item.value, 16)
             if hex(int_version) == item.value:
