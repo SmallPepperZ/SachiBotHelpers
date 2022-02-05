@@ -4,7 +4,7 @@ from .. import db
 
 
 class LogChannel(db.Entity):
-    _table_ = "log_threads"
+    _table_ = "log_channels"
     guild_id = PrimaryKey(str)
     log_category = Required(str)
     join_channel = Required(str)
