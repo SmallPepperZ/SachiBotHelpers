@@ -13,10 +13,16 @@ db.bind(provider="sqlite", filename="../../storage/SachiBotStorage.db", create_d
 
 with open(os.path.join(os.getcwd(),"storage/helpers.cfg")) as f:
     modules = f.read().split('\n')
+
 if "config" in modules:
     from .config import Config
+
 if "invite" in modules:
     from .invites import Invitee
+
+if "logs" in modules:
+    from .logs import LogChannel
+
 if "snow" in modules:
     from .snow.db_entries import SnowFight, SnowFighter
     from .snow.leaderboard import Leaderboard as __Leaderboard
